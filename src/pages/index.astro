@@ -10,7 +10,10 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-
+html, body {
+	padding: 0;
+	margin: 0;
+}
 main {
 	padding: 0;
     width: 100%;  /* Use the full width of the body */
@@ -107,7 +110,7 @@ main {
 </style>
 	</head>
 	<body>
-		<canvas id="trailCanvas" style="position: absolute; top: 100px; left: 0; right: 0; z-index: 0; height: calc(100vh - 250px); margin: 0 auto;"></canvas>
+		<canvas id="trailCanvas" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; height: calc(100vh - 250px); width: 80vw;"></canvas>
 
 		<Header />
 		<main>
@@ -139,7 +142,7 @@ main {
 				const canvas = document.getElementById('trailCanvas') as HTMLCanvasElement | null;
 				if (canvas) {
 					canvas.width = window.innerWidth;
-					canvas.height = window.innerHeight - 150; // Adjusted to account for header and footer
+					canvas.height = window.innerHeight; // Adjusted to account for header and footer
 					const ctx = canvas.getContext('2d');
 					if (ctx) {
 						const cubes = document.querySelectorAll('.cube');
@@ -155,8 +158,8 @@ main {
 							let lastY = window.innerHeight / 2;
 		
 							function updateCube() {
-								const randomX = (Math.random() * (window.innerWidth - 200)) - (window.innerWidth / 2 - 50);
-								const randomY = (Math.random() * (window.innerHeight - 200)) - (window.innerHeight / 2 - 50);
+								const randomX = (Math.random() * (window.innerWidth * 0.9)) - (window.innerWidth * 0.45);
+								const randomY = (Math.random() * (window.innerHeight * 0.9)) - (window.innerHeight * 0.45);
 								const randomColor = getRandomColor();
 		
 								let randomWordIndex, randomWord;
