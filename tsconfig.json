@@ -1,7 +1,8 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "strictNullChecks": true,
-    "jsx": "preserve"
+    "strictNullChecks": false,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"]
   }
 }
