@@ -126,7 +126,7 @@ main {
 			<!-- Add more cubes as needed -->
 			</div>
 		</main>
-		<Footer />
+		<Footer showDownloadButton={true} />
 		<script>
 			function getRandomColor() {
 				const r = Math.floor(Math.random() * 256);
@@ -151,7 +151,7 @@ main {
 						lastUsedWords = Array.from({length: cubes.length}, () => "");
 		
 						cubes.forEach((cubeElement, index) => {
-							const cube = cubeElement as HTMLElement; // Ensure cube is treated as an HTMLElement
+							const cube = cubeElement as HTMLElement; const downloadButton = document.getElementById('downloadCanvas');
 		
 							// Set initial positions
 							let lastX = window.innerWidth / 2;
@@ -170,6 +170,9 @@ main {
 		
 								cube.style.transform = `translate(${randomX}px, ${randomY}px)`;
 								cube.style.backgroundColor = randomColor;
+								if (downloadButton) {
+									downloadButton.style.backgroundColor = randomColor;
+								}
 								const span = cube.querySelector('span');
 								if (span) {
 									span.textContent = randomWord;
@@ -193,6 +196,14 @@ main {
 						});
 					}
 				}
+			});
+			document.getElementById('downloadCanvas').addEventListener('click', function() {
+				const canvas = document.getElementById('trailCanvas');
+				const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+				const link = document.createElement('a');
+				link.download = 'canvas-image.png';
+				link.href = image;
+				link.click();
 			});
 		</script>
 		

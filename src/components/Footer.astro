@@ -1,5 +1,6 @@
 ---
 const today = new Date();
+const { showDownloadButton } = Astro.props;
 ---
 
 <footer>
@@ -23,6 +24,9 @@ const today = new Date();
 				></path></svg
 			>
 		</a>
+		{showDownloadButton ? (
+			<button id="downloadCanvas">Download Image</button>
+		) : ''}
 	</div>
 </footer>
 <style>
@@ -44,5 +48,23 @@ const today = new Date();
 	}
 	.social-links a:hover {
 		color: rgb(var(--gray-dark));
+	}
+	#downloadCanvas {
+		border-radius: 16px;
+		background: none;
+		color: white;
+		font-size: 0.8em;
+		cursor: pointer;
+		border: 1px solid white;
+		padding: 0 10px;
+		transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		vertical-align: middle;
+	}
+	#downloadCanvas:hover {
+		transform: rotate(360deg);
+		background-color: rgba(255, 255, 255, 0.1);
 	}
 </style>
