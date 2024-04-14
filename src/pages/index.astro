@@ -134,6 +134,8 @@ main {
 				const b = Math.floor(Math.random() * 256);
 				return `rgb(${r},${g},${b})`;
 			}
+
+
 		
 			const words = ["Metatron", "Merkaba", "Fibonacci", "Chakra", "Torus", "Pi", "Phi", "Vortex", "Gnomon", "Mandala", "Aether", "Helix", "Tetractys", "Quincunx"];
 			let lastUsedWords: string[] = [];
@@ -149,19 +151,46 @@ main {
 		
 						// Initialize lastUsedWords with empty strings for each cube
 						lastUsedWords = Array.from({length: cubes.length}, () => "");
-		
+						function drawLine(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, duration: number) {
+    const startTime = performance.now();
+
+    function animateLineDrawing(currentTime: number) {
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1); // Ensure progress doesn't exceed 1
+
+        const currentX = startX + (endX - startX) * progress;
+        const currentY = startY + (endY - startY) * progress;
+
+        // Clear the canvas or the previous line segment
+        // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Uncomment if you want to draw only the current segment
+
+        // Draw new line segment
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(currentX, currentY);
+        ctx.strokeStyle = getRandomColor(); // Use your existing getRandomColor function for color
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        if (progress < 1) {
+            requestAnimationFrame(animateLineDrawing); // Continue the animation if not finished
+        }
+    }
+
+    requestAnimationFrame(animateLineDrawing);
+}				
 						cubes.forEach((cubeElement, index) => {
 							const cube = cubeElement as HTMLElement; const downloadButton = document.getElementById('downloadCanvas');
 		
 							// Set initial positions
 							let lastX = window.innerWidth / 2;
 							let lastY = window.innerHeight / 2;
-		
+								
 							function updateCube() {
 								const randomX = (Math.random() * (window.innerWidth * 0.9)) - (window.innerWidth * 0.45);
 								const randomY = (Math.random() * (window.innerHeight * 0.9)) - (window.innerHeight * 0.45);
 								const randomColor = getRandomColor();
-		
+
 								let randomWordIndex, randomWord;
 								do {
 									randomWordIndex = Math.floor(Math.random() * words.length);
@@ -178,19 +207,22 @@ main {
 									span.textContent = randomWord;
 								}
 								lastUsedWords[index] = randomWord;
-		
+
+
 								// Draw line
-								ctx.beginPath();
-								ctx.moveTo(lastX, lastY);
-								ctx.lineTo(window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY);
-								ctx.strokeStyle = randomColor;
-								ctx.lineWidth = 5;
-								ctx.stroke();
-		
+								drawLine(ctx, lastX, lastY, window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY, 2000); 
+									// ctx.beginPath();
+									// ctx.moveTo(lastX, lastY);
+									// ctx.lineTo(window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY);
+									// ctx.strokeStyle = randomColor;
+									// ctx.lineWidth = 5;
+									// ctx.stroke();
+								
+								
 								lastX = window.innerWidth / 2 + randomX;
 								lastY = window.innerHeight / 2 + randomY;
 							}
-		
+
 							updateCube();  // Initial update
 							setInterval(updateCube, 3140);
 						});
@@ -198,16 +230,28 @@ main {
 				}
 			});
 			document.getElementById('downloadCanvas').addEventListener('click', function() {
-				const canvas = document.getElementById('trailCanvas');
-				const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-				const link = document.createElement('a');
-				link.download = 'canvas-image.png';
-				link.href = image;
-				link.click();
-			});
+    const canvas = document.getElementById('trailCanvas') as HTMLCanvasElement | null;
+    if (canvas) {
+        // Instead of directly setting the href to the data URL, create a Blob and use URL.createObjectURL
+        canvas.toBlob(function(blob) {
+            if (blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'canvas-image.png';
+                link.href = url;
+                // This part is crucial for mobile browsers - simulate a click event
+                document.body.appendChild(link); // Append the link to the document
+                link.click(); // Simulate a click
+                document.body.removeChild(link); // Remove the link after triggering the download
+                URL.revokeObjectURL(url); // Clean up the URL object
+            }
+        }, 'image/png');
+    }
+});
 		</script>
 		
 			
 			
 	</body>
 </html>
+
