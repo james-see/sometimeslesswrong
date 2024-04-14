@@ -23,7 +23,7 @@ main {
 .scene {
     width: 50vw;   /* Adjust the width of the scene as needed */
     height: 70vh;  /* Adjust the height of the scene as needed */
-    perspective: 1000px;
+    /* perspective: 1000px; */
     display: flex; /* This enables flexbox for centering within the scene itself */
     flex-wrap: wrap; /* This allows cubes to wrap within the scene */
     align-items: center;
@@ -107,7 +107,7 @@ main {
 </style>
 	</head>
 	<body>
-		<canvas id="trailCanvas" style="position: absolute; top: 100px; left: 0; z-index: 0; height: calc(100vh - 250px);"></canvas>
+		<canvas id="trailCanvas" style="position: absolute; top: 100px; left: 0; right: 0; z-index: 0; height: calc(100vh - 250px); margin: 0 auto;"></canvas>
 
 		<Header />
 		<main>
