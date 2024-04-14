@@ -1,0 +1,186 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+
+main {
+	padding: 0;
+    width: 100%;  /* Use the full width of the body */
+    height: 100%; /* Use the full height of the body */
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+}
+
+.scene {
+    width: 50vw;   /* Adjust the width of the scene as needed */
+    height: 500px;  /* Adjust the height of the scene as needed */
+    perspective: 1000px;
+    display: flex; /* This enables flexbox for centering within the scene itself */
+    flex-wrap: wrap; /* This allows cubes to wrap within the scene */
+    align-items: center;
+    justify-content: center;
+}
+
+.cube {
+	border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    transform-style: preserve-3d;
+    transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
+    transform: translate(-50%, -50%);
+}
+
+.cube span {
+    z-index: 2;
+    position: relative;
+    padding: 5px;
+    text-align: center;
+    /* background: rgba(0, 0, 0, 0.5); */
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotateX(0) rotateY(0) rotateZ(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+@keyframes moveAround {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateX(-200px) translateY(-200px);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateX(200px) translateY(-200px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateX(200px) translateY(200px);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateX(-200px) translateY(200px);
+  }
+}
+
+@keyframes colorChange {
+  0%, 100% {
+    background: red;
+  }
+  25% {
+    background: blue;
+  }
+  50% {
+    background: green;
+  }
+  75% {
+    background: yellow;
+  }
+}
+.cube:hover {
+  animation-play-state: paused;
+}
+@media (max-width: 768px) {
+    .scene {
+        width: 90vw;  /* Full viewport width on mobile devices */
+    }
+}
+</style>
+	</head>
+	<body>
+		<canvas id="trailCanvas" style="position: absolute; top: 0; left: 0; z-index: 0;"></canvas>
+
+		<Header />
+		<main>
+			<!-- <h1>🧑‍🚀 Hello, Astronaut!</h1> -->
+			<div class="scene">
+				<div class="cube" data-index="1"><span>Metatron</span></div>
+				<div class="cube" data-index="2"><span>Merkaba</span></div>
+				<div class="cube" data-index="3"><span>Fibonacci</span></div>
+				<div class="cube" data-index="4"><span>Chakra</span></div>
+				<div class="cube" data-index="5"><span>Gnomon</span></div>
+				<div class="cube" data-index="6"><span>Tetractys</span></div>
+				<div class="cube" data-index="7"><span>Mandalas</span></div>
+			<!-- Add more cubes as needed -->
+			</div>
+		</main>
+		<Footer />
+		<script>
+			function getRandomColor() {
+				const r = Math.floor(Math.random() * 256);
+				const g = Math.floor(Math.random() * 256);
+				const b = Math.floor(Math.random() * 256);
+				return `rgb(${r},${g},${b})`;
+			}
+			
+			const words = ["Metatron", "Merkaba", "Fibonacci", "Chakra", "Torus", "Pi", "Phi", "Vortex", "Gnomon", "Mandala", "Aether", "Helix", "Tetractys", "Quincunx"];
+			let lastUsedWords = [];
+			
+			document.addEventListener('DOMContentLoaded', function() {
+				const canvas = document.getElementById('trailCanvas');
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				const ctx = canvas.getContext('2d');
+				
+				const cubes = document.querySelectorAll('.cube');
+				lastUsedWords = Array.from({length: cubes.length}, () => "");
+			
+				cubes.forEach((cube, index) => {
+					// Set initial positions
+					let lastX = window.innerWidth / 2;
+					let lastY = window.innerHeight / 2;
+					
+					function updateCube() {
+						const randomX = (Math.random() * (window.innerWidth - 150)) - (window.innerWidth / 2 - 50);
+						const randomY = (Math.random() * (window.innerHeight - 150)) - (window.innerHeight / 2 - 50);
+						const randomColor = getRandomColor();
+						
+						let randomWordIndex, randomWord;
+						do {
+							randomWordIndex = Math.floor(Math.random() * words.length);
+							randomWord = words[randomWordIndex];
+						} while (lastUsedWords.includes(randomWord));
+						
+						cube.style.transform = `translate(${randomX}px, ${randomY}px)`;
+						cube.style.backgroundColor = randomColor;
+						cube.querySelector('span').textContent = randomWord;
+						lastUsedWords[index] = randomWord;
+			
+						// Draw line
+						ctx.beginPath();
+						ctx.moveTo(lastX, lastY);
+						ctx.lineTo(window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY);
+						ctx.strokeStyle = randomColor;
+						ctx.lineWidth = 5;
+						ctx.stroke();
+						
+						lastX = window.innerWidth / 2 + randomX;
+						lastY = window.innerHeight / 2 + randomY;
+					}
+					
+					updateCube();  // Initial update
+					setInterval(updateCube, 3140);
+				});
+			});
+			</script>
+			
+			
+	</body>
+</html>
