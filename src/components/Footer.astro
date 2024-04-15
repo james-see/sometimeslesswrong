@@ -47,13 +47,15 @@ const { showDownloadButton } = Astro.props;
 		display: flex;
 		justify-content: center;
 		gap: 1em;
-		margin-top: 1em;
 		z-index: 10;
+		align-items: center;
+		margin-top: 1em;
 	}
 	.social-links a {
 		text-decoration: none;
 		color: rgb(var(--gray));
 		z-index: 10;
+		align-items: center;
 	}
 	.social-links a:hover {
 		color: rgb(var(--gray-dark));
@@ -65,17 +67,24 @@ const { showDownloadButton } = Astro.props;
 		font-size: 0.8em;
 		cursor: pointer;
 		border: 1px solid white;
-		padding: 0 10px;
+		padding: 2px 10px;
 		transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		vertical-align: middle;
+		vertical-align: center;
 		font-family: 'PTF55F', serif;
 		z-index: 10;
+		margin-top: auto; /* Aligns the bottom of the button with the flex container's center line */
+		margin-bottom: 0.7em; /* Aligns the top of the button with the flex container's center line */
 	}
 	#downloadCanvas:hover {
 		transform: rotate(360deg);
 		background-color: rgba(255, 255, 255, 0.1);
+	}
+	.social-links a svg {
+		/* Adjust these as needed for alignment */
+		margin-top: auto; /* Aligns the bottom of the SVG with the flex container's center line */
+		margin-bottom: auto; /* Aligns the top of the SVG with the flex container's center line */
 	}
 </style>
