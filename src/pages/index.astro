@@ -143,8 +143,14 @@ main {
 				const canvas = document.getElementById('trailCanvas') as HTMLCanvasElement | null;
 				if (canvas) {
 					canvas.width = window.innerWidth;
-					canvas.height = window.innerHeight; // Adjusted to account for header and footer
+					canvas.height = window.innerHeight;
 					const ctx = canvas.getContext('2d');
+          const scale = window.devicePixelRatio; // Get the device's pixel ratio
+          canvas.width = window.innerWidth * scale;
+          canvas.height = window.innerHeight * scale;
+          canvas.style.width = window.innerWidth + 'px';
+          canvas.style.height = window.innerHeight + 'px';
+          ctx.scale(scale, scale);
 					if (ctx) {
 						const cubes = document.querySelectorAll('.cube');
 		
@@ -152,6 +158,8 @@ main {
 						lastUsedWords = Array.from({length: cubes.length}, () => "");
 						function drawLine(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number, duration: number) {
     const startTime = performance.now();
+	ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     function animateLineDrawing(currentTime: number) {
         const elapsedTime = currentTime - startTime;

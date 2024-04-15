@@ -4,7 +4,7 @@ const { showDownloadButton } = Astro.props;
 ---
 
 <footer>
-	&copy; {today.getFullYear()} James Campbell. All rights reserved.
+	<div style="z-index: 10;">&copy; {today.getFullYear()} James Campbell. All rights reserved.</div>
 	<div class="social-links">
 		<a href="https://twitter.com/jc50000000" target="_blank">
 			<span class="sr-only">Follow James on Twitter</span>
@@ -48,10 +48,12 @@ const { showDownloadButton } = Astro.props;
 		justify-content: center;
 		gap: 1em;
 		margin-top: 1em;
+		z-index: 10;
 	}
 	.social-links a {
 		text-decoration: none;
 		color: rgb(var(--gray));
+		z-index: 10;
 	}
 	.social-links a:hover {
 		color: rgb(var(--gray-dark));
@@ -69,6 +71,8 @@ const { showDownloadButton } = Astro.props;
 		align-items: center;
 		justify-content: center;
 		vertical-align: middle;
+		font-family: 'PTF55F', serif;
+		z-index: 10;
 	}
 	#downloadCanvas:hover {
 		transform: rotate(360deg);
