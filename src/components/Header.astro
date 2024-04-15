@@ -5,7 +5,10 @@ import { SITE_TITLE } from '../consts';
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<h2 style="display: flex; align-items: center;">
+			<a href="/"><img src="/favicon.svg" alt="Logo" style="height: 32px;"></a>
+			<a href="/" style="margin-left: 8px;">{SITE_TITLE}</a>
+		</h2>
 		<div class="hamburger">☰</div>
 		<div class="menu-container">
 			<div class="internal-links">
@@ -51,7 +54,6 @@ import { SITE_TITLE } from '../consts';
 		margin: 0;
 		font-size: 1em;
 	}
-
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
