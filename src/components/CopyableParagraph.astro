@@ -1,0 +1,86 @@
+---
+interface Props {
+  id: string;
+  content: string;
+  number?: number;
+}
+
+const { id, content, number } = Astro.props;
+---
+
+<p id={id} class="copyable">
+  {number && <span class="number">{number}. </span>}
+  {content}
+  <button class="share-link" data-content={content} data-id={id}>
+    🔗
+  </button>
+</p>
+
+<style>
+  .copyable {
+    position: relative;
+    padding-left: 1.5em;
+  }
+  .number {
+    position: absolute;
+    left: 0;
+  }
+  .share-link {
+    display: inline-block;
+    margin-left: 0.5em;
+    font-size: 0.8em;
+    opacity: 0.7;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .notification {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+  }
+</style>
+
+<script>
+  function showNotification(message: string, button: HTMLButtonElement) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.className = 'notification';
+    document.body.appendChild(notification);
+
+    const buttonRect = button.getBoundingClientRect();
+    notification.style.position = 'absolute';
+    notification.style.top = `${buttonRect.top + window.scrollY}px`;
+    notification.style.left = `${buttonRect.left + window.scrollX + buttonRect.width + 10}px`;
+
+    setTimeout(() => {
+      notification.style.opacity = '1';
+    }, 10);
+
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 300);
+    }, 2000);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.share-link').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = button.getAttribute('data-id');
+        const url = new URL(window.location.href);
+        url.hash = id;
+        navigator.clipboard.writeText(url.toString()).then(() => {
+          showNotification('Copied!', button as HTMLButtonElement);
+        });
+      });
+    });
+  });
+</script>
