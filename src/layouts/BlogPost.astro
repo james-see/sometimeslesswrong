@@ -50,6 +50,32 @@ const { title, description, pubDate, updatedDate, heroImage, Content } = Astro.p
 			.last-updated-on {
 				font-style: italic;
 			}
+			.back-to-blog {
+		text-align: center;
+	}
+	.back-to-blog a {
+		text-decoration: none;
+		color: rgb(var(--gray));
+		border-radius: 25px;
+		padding: 5px 12px;
+		border: 1px solid rgb(var(--gray));
+		font-family: monospace;
+		font-size: 0.8em;
+		transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
+	}
+	.back-to-blog a:hover {
+		color: whitesmoke;
+		border-color: purple;
+		background-color: purple;
+		font-family: monospace;
+		font-size: 0.8em;
+		transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
+	}
+			.subtitle {
+				font-style: italic;
+				text-align: center;
+				margin: 0.5em 0;
+			}
 		</style>
 	</head>
 
@@ -72,11 +98,15 @@ const { title, description, pubDate, updatedDate, heroImage, Content } = Astro.p
 							}
 						</div>
 						<h1>{title}</h1>
+						{description && <p class="subtitle">{description}</p>}
 						<hr />
 					</div>
 					<slot />
 				</div>
 			</article>
+			<div class="back-to-blog">
+				<a href="/blog">Back to blog</a>
+			</div>
 		</main>
 		<Footer />
 	</body>
