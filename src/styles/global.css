@@ -171,3 +171,7 @@ hr {
   transition: opacity 0.3s ease-in-out;
   z-index: 1000;
 }
+
+.site-title {
+	font-family: monospace;
+}

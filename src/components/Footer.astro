@@ -43,6 +43,8 @@ const { showDownloadButton } = Astro.props;
 		background: transparent;
 		color: rgb(var(--gray));
 		text-align: center;
+		font-family: monospace;
+		font-size: 0.8em;
 	}
 		.social-links {
 		display: flex;
@@ -62,6 +64,7 @@ const { showDownloadButton } = Astro.props;
 		color: rgb(var(--gray-dark));
 	}
 	#downloadCanvas {
+		font-family: monospace;
 		border-radius: 16px;
 		background: none;
 		color: white;
@@ -74,7 +77,6 @@ const { showDownloadButton } = Astro.props;
 		align-items: center;
 		justify-content: center;
 		vertical-align: center;
-		font-family: 'PTF55F', serif;
 		z-index: 10;
 		margin-top: auto; /* Aligns the bottom of the button with the flex container's center line */
 		margin-bottom: 0.65em; /* Aligns the top of the button with the flex container's center line */
