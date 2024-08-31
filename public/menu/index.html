@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Food Menu</title>
+  <title>Chef Dad's Food Menu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("service_tlkofbs"); // Replace with your EmailJS user ID
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("zHCvL6J6-R9b_T6Wm");
     })();
   </script>
 </head>
 <body>
   <div class="container">
-    <h1>Food Menu</h1>
+    <h1>Chef Dad's Menu</h1>
+    <h2>Today's Date: <span id="currentDate"></span></h2>
     <ul class="list-group">
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Pizza">Pizza</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Burger">Burger</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Salad">Salad</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Grilled-Cheese">Grilled Cheese</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Eggs">Dippy Eggs</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Mac-and-Cheese">Mac and Cheese</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Pancakes">Pancakes</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Waffles">Waffles</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Apples">Sliced Apples</li>
+      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Oranges">Sliced Oranges</li>
       <!-- Add more menu items as needed -->
     </ul>
   </div>
@@ -30,7 +35,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="orderModalLabel">Place Order</h5>
+          <h5 class="modal-title" id="orderModalLabel">Order</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -56,6 +61,11 @@
   </div>
 
   <script>
+    function updateDate() {
+      var currentDate = new Date().toLocaleDateString();
+      document.getElementById('currentDate').textContent = currentDate;
+    }
+    updateDate();
     $(document).ready(function() {
       $('#orderModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
