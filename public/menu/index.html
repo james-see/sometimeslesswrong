@@ -61,27 +61,14 @@
       $('#submitOrder').click(function() {
         var name = $('#nameInput').val();
         var item = $('#itemInput').val();
-        var message = encodeURIComponent('New order: ' + item + ' for ' + name);
-        var url = 'https://mms-api.att.com/rest/mms/v1/messages';
-        var data = {
-          to: '7032039877',
-          message: message
-        };
+        var message = 'New order: ' + item + ' for ' + name;
+        var recipient = '7032039877@mms.att.net';
+        var mailtoLink = 'mailto:' + recipient + '?body=' + encodeURIComponent(message);
 
-        $.ajax({
-          type: 'POST',
-          url: url,
-          data: JSON.stringify(data),
-          contentType: 'application/json',
-          success: function(response) {
-            alert('Order submitted successfully!');
-            $('#orderModal').modal('hide');
-            $('#orderForm')[0].reset();
-          },
-          error: function(xhr, status, error) {
-            alert('Error submitting order. Please try again.');
-          }
-        });
+        window.location.href = mailtoLink;
+
+        $('#orderModal').modal('hide');
+        $('#orderForm')[0].reset();
       });
     });
   </script>
