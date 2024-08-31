@@ -7,6 +7,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("service_tlkofbs"); // Replace with your EmailJS user ID
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
@@ -63,12 +69,17 @@
         var item = $('#itemInput').val();
         var message = 'New order: ' + item + ' for ' + name;
         var recipient = '7032039877@mms.att.net';
-        var mailtoLink = 'mailto:' + recipient + '?body=' + encodeURIComponent(message);
 
-        window.location.href = mailtoLink;
-
-        $('#orderModal').modal('hide');
-        $('#orderForm')[0].reset();
+        emailjs.send("service_tlkofbs", "template_id", {
+          to_email: recipient,
+          message: message
+        }).then(function(response) {
+          alert('Order submitted successfully!');
+          $('#orderModal').modal('hide');
+          $('#orderForm')[0].reset();
+        }, function(error) {
+          alert('Error submitting order. Please try again.');
+        });
       });
     });
   </script>
