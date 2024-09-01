@@ -2,61 +2,128 @@
 <html>
 <head>
   <title>Chef Dad's Food Menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
       emailjs.init("zHCvL6J6-R9b_T6Wm");
     })();
   </script>
+  <style>
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Chef Dad's Menu</h1>
-    <h2>Today's Date: <span id="currentDate"></span></h2>
-    <ul class="list-group">
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Grilled-Cheese">Grilled Cheese</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Eggs">Dippy Eggs</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Mac-and-Cheese">Mac and Cheese</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Pancakes">Pancakes</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Waffles">Waffles</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Apples">Sliced Apples</li>
-      <li class="list-group-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Oranges">Sliced Oranges</li>
-      <!-- Add more menu items as needed -->
-    </ul>
-  </div>
-
-  <!-- Order Modal -->
-  <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="orderModalLabel">Order</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Chef Dad's Menu</h1>
+      <h2 class="subtitle">Today's Date: <span id="currentDate"></span></h2>
+      <div class="columns is-multiline">
+        <div class="column is-full-mobile is-half-tablet is-one-third-desktop" id="brunchMenu" style="display: none;">
+          <h3 class="title is-4">Brunch Menu</h3>
+          <ul class="menu-list">
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Eggs" data-quantity="true">Dippy Eggs</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Pancakes">Pancakes</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Waffles">Waffles</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Grilled-Cheese">Grilled Cheese</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Mac-and-Cheese">Mac and Cheese</li>
+          </ul>
         </div>
-        <div class="modal-body">
-          <form id="orderForm">
-            <div class="form-group">
-              <label for="nameInput">Name:</label>
-              <input type="text" class="form-control" id="nameInput" required>
-            </div>
-            <div class="form-group">
-              <label for="itemInput">Item:</label>
-              <input type="text" class="form-control" id="itemInput" readonly>
-            </div>
-          </form>
+        <div class="column is-full-mobile is-half-tablet is-one-third-desktop" id="dinnerMenu" style="display: none;">
+          <h3 class="title is-4">Dinner Menu</h3>
+          <ul class="menu-list">
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Pizza">Pizza</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Burger">Burger</li>
+          </ul>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="submitOrder">Submit Order</button>
+        <div class="column is-full-mobile is-half-tablet is-one-third-desktop" id="snacksMenu" style="display: none;">
+          <h3 class="title is-4">Snacks Menu</h3>
+          <ul class="menu-list">
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Apples">Sliced Apples</li>
+            <li class="menu-item" data-toggle="modal" data-target="#orderModal" data-item="Sliced-Oranges">Sliced Oranges</li>
+          </ul>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Order Modal -->
+  <div class="modal" id="orderModal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Order</p>
+        <button class="delete" aria-label="close" id="cancelOrder"></button>
+      </header>
+      <section class="modal-card-body">
+        <form id="orderForm">
+          <div class="field">
+            <label class="label" for="nameInput">Name:</label>
+            <div class="control">
+              <input class="input" type="text" id="nameInput" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="itemInput">Item:</label>
+            <div class="control">
+              <input class="input" type="text" id="itemInput" readonly>
+            </div>
+          </div>
+          <div class="field" id="quantityGroup" style="display: none;">
+            <label class="label" for="quantityInput">Quantity:</label>
+            <div class="control">
+              <input class="input" type="number" id="quantityInput" min="1" value="1">
+            </div>
+          </div>
+          <div class="field" id="sidesGroup" style="display: none;">
+            <label class="label">Sides:</label>
+            <div class="control">
+              <div class="select">
+                <select id="sidesInput1">
+                  <option value="">None</option>
+                  <option value="Toast">Toast</option>
+                  <option value="Fruit">Fruit</option>
+                </select>
+              </div>
+            </div>
+            <div class="control">
+              <div class="select">
+                <select id="sidesInput2">
+                  <option value="">None</option>
+                  <option value="Toast">Toast</option>
+                  <option value="Fruit">Fruit</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="submitOrder">Submit Order</button>
+        <button class="button" data-dismiss="modal">Cancel</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Add a new custom modal for success message -->
+  <div class="modal" id="successModal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Success</p>
+        <button class="delete" aria-label="close" data-dismiss="modal"></button>
+      </header>
+      <section class="modal-card-body">
+        <p>Order submitted successfully!</p>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button" data-dismiss="modal">Close</button>
+      </footer>
     </div>
   </div>
 
@@ -65,31 +132,106 @@
       var currentDate = new Date().toLocaleDateString();
       document.getElementById('currentDate').textContent = currentDate;
     }
+
+    function updateMenu() {
+      var currentHour = new Date().getHours();
+      var brunchMenu = document.getElementById('brunchMenu');
+      var dinnerMenu = document.getElementById('dinnerMenu');
+      var snacksMenu = document.getElementById('snacksMenu');
+
+      if (currentHour >= 9 && currentHour < 17) {
+        brunchMenu.style.display = 'block';
+        dinnerMenu.style.display = 'none';
+        snacksMenu.style.display = 'block';
+      } else {
+        brunchMenu.style.display = 'none';
+        dinnerMenu.style.display = 'block';
+        snacksMenu.style.display = 'none';
+      }
+    }
+
     updateDate();
+    updateMenu();
+
     $(document).ready(function() {
-      $('#orderModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var item = button.data('item');
-        var modal = $(this);
-        modal.find('.modal-body input#itemInput').val(item);
+      $('.menu-item').click(function() {
+        var item = $(this).data('item');
+        var hasQuantity = $(this).data('quantity');
+        $('#itemInput').val(item);
+        
+        var quantityGroup = document.getElementById('quantityGroup');
+        var sidesGroup = document.getElementById('sidesGroup');
+        
+        // Show quantity if applicable
+        if (hasQuantity) {
+          quantityGroup.style.display = 'block';
+        } else {
+          quantityGroup.style.display = 'none';
+        }
+
+        // Show sides only for brunch and dinner items
+        if ($(this).closest('#brunchMenu').length || $(this).closest('#dinnerMenu').length) {
+          sidesGroup.style.display = 'block';
+        } else {
+          sidesGroup.style.display = 'none';
+        }
+
+        $('#orderModal').addClass('is-active');
+      });
+
+      $('[data-dismiss="modal"]').click(function() {
+        $('#orderModal').removeClass('is-active');
       });
 
       $('#submitOrder').click(function() {
+        // Check if the form is valid
+        if (!$('#orderForm')[0].checkValidity()) {
+          // If not valid, show validation messages
+          $('#orderForm')[0].reportValidity();
+          return; // Prevent submission
+        }
+
         var name = $('#nameInput').val();
         var item = $('#itemInput').val();
-        var message = 'New order: ' + item + ' for ' + name;
+        var quantity = $('#quantityInput').val();
+        var sides1 = $('#sidesInput1').val();
+        var sides2 = $('#sidesInput2').val();
+        var message = 'New order: ' + item;
+        
+        if (quantity > 1) {
+          message += ' (Quantity: ' + quantity + ')';
+        }
+        
+        if (sides1) {
+          message += ' with Side 1: ' + sides1;
+        }
+        
+        if (sides2) {
+          message += ' and Side 2: ' + sides2;
+        }
+        
+        message += ' for ' + name;
         var recipient = '7032039877@mms.att.net';
 
         emailjs.send("service_tlkofbs", "template_rvwbpvn", {
           to_email: recipient,
           message: message
         }).then(function(response) {
-          alert('Order submitted successfully!');
-          $('#orderModal').modal('hide');
+          $('#successModal').addClass('is-active');
+          $('#orderModal').removeClass('is-active');
           $('#orderForm')[0].reset();
         }, function(error) {
           alert('Error submitting order. Please try again.');
         });
+      });
+
+      $('#cancelOrder').click(function() {
+        $('#orderModal').removeClass('is-active');
+      });
+
+      // Add click event handler for the success modal close button
+      $('#successModal [data-dismiss="modal"]').click(function() {
+        $('#successModal').removeClass('is-active');
       });
     });
   </script>
