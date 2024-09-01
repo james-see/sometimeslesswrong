@@ -21,6 +21,34 @@ I followed up with "I want them to be able to submit the order only after puttin
 
 It recommended EmailJS, which I had not heard of, but it was easy to setup and get working and more imporantly, free for 200 emails per month. The twist here is I used MMS to send the text message with the menu order to me, since it is formatted as an email.
 
+For EmailJS, I setup a new email just for this and put the number I wanted to text me in the "To" field.
+
+Here is the code for initializing EmailJS:
+
+```javascript
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("<your-user-id>");
+    })();
+  </script>
+```
+
+For the submission modal:
+
+```javascript
+        emailjs.send("<your service token>", "<your template token>", {
+          to_email: recipient,
+          message: message
+        }).then(function(response) {
+          $('#successModal').addClass('is-active');
+          $('#orderModal').removeClass('is-active');
+          $('#orderForm')[0].reset();
+        }, function(error) {
+          alert('Error submitting order. Please try again.');
+        });
+```
+
 That is about it!
 
 I used a QR code generator site to make the QR code for the page and printed it out. The oldest tested it out with his iPad and it worked. I got a text message on my phone with the order.
