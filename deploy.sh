@@ -7,7 +7,7 @@ set -e
 npm run build
 
 # Deploy to the remote server
-scp -r dist/ do:sometimeslesswrong/site/
+scp -r dist/ antibionic:sometimeslesswrong/site/
 
 # Print a success message
 echo "Deployment successful!"
