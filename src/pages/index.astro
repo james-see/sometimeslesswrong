@@ -24,8 +24,10 @@ main {
 }
 
 .scene {
-    width: 50vw;   /* Adjust the width of the scene as needed */
-    height: 70vh;  /* Adjust the height of the scene as needed */
+    position: relative;
+    width: 50vw;
+    height: 70vh;
+    margin-top: -6vh;  /* Shift up to match canvas center */
     /* perspective: 1000px; */
     display: flex; /* This enables flexbox for centering within the scene itself */
     flex-wrap: wrap; /* This allows cubes to wrap within the scene */
@@ -44,8 +46,10 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
+    font-family: 'UniversLTPro', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     transform-style: preserve-3d;
     transition: transform 3.14s ease-in-out, background-color 1s ease-in-out;
     transform: translate(-50%, -50%) rotateX(20deg) rotateY(20deg);
@@ -110,22 +114,22 @@ main {
 </style>
 	</head>
 	<body>
-		<canvas id="trailCanvas" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; height: calc(100vh - 250px); width: 80vw;"></canvas>
+		<canvas id="trailCanvas" style="position: absolute; top: 44%; left: 50%; transform: translate(-50%, -50%); z-index: 0; height: calc(100vh - 300px); width: 80vw;"></canvas>
 
 		<Header />
 		<main>
 			<div class="scene">
-				<div class="cube" data-index="1"><span>Metatron</span></div>
-				<div class="cube" data-index="2"><span>Merkaba</span></div>
-				<div class="cube" data-index="3"><span>Fibonacci</span></div>
-				<div class="cube" data-index="4"><span>Chakra</span></div>
-				<div class="cube" data-index="5"><span>Gnomon</span></div>
-				<div class="cube" data-index="6"><span>Tetractys</span></div>
-				<div class="cube" data-index="7"><span>Mandalas</span></div>
+				<div class="cube" data-index="1"><span>METATRON</span></div>
+				<div class="cube" data-index="2"><span>MERKABA</span></div>
+				<div class="cube" data-index="3"><span>FIBONACCI</span></div>
+				<div class="cube" data-index="4"><span>CHAKRA</span></div>
+				<div class="cube" data-index="5"><span>GNOMON</span></div>
+				<div class="cube" data-index="6"><span>TETRACTYS</span></div>
+				<div class="cube" data-index="7"><span>MANDALAS</span></div>
 			<!-- Add more cubes as needed -->
 			</div>
 		</main>
-		<Footer showDownloadButton={true} />
+		<Footer />
 		<script>
 			function getRandomColor() {
 				const r = Math.floor(Math.random() * 256);
@@ -136,7 +140,7 @@ main {
 
 
 		
-			const words = ["Metatron", "Merkaba", "Fibonacci", "Chakra", "Torus", "Pi", "Phi", "Vortex", "Gnomon", "Mandala", "Aether", "Helix", "Tetractys", "Quincunx"];
+			const words = ["METATRON", "MERKABA", "FIBONACCI", "CHAKRA", "TORUS", "PI", "PHI", "VORTEX", "GNOMON", "MANDALA", "AETHER", "HELIX", "TETRACTYS", "QUINCUNX"];
 			let lastUsedWords: string[] = [];
 		
 			document.addEventListener('DOMContentLoaded', function() {
@@ -153,6 +157,13 @@ main {
           ctx.scale(scale, scale);
 					if (ctx) {
 						const cubes = document.querySelectorAll('.cube');
+						const canvasRect = canvas.getBoundingClientRect();
+						const scene = document.querySelector('.scene') as HTMLElement;
+						const sceneRect = scene.getBoundingClientRect();
+
+						// Scene center in canvas coordinate space
+						const centerX = (sceneRect.left + sceneRect.width / 2) - canvasRect.left;
+						const centerY = (sceneRect.top + sceneRect.height / 2) - canvasRect.top;
 		
 						// Initialize lastUsedWords with empty strings for each cube
 						lastUsedWords = Array.from({length: cubes.length}, () => "");
@@ -163,39 +174,35 @@ main {
 
     function animateLineDrawing(currentTime: number) {
         const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1); // Ensure progress doesn't exceed 1
+        const progress = Math.min(elapsedTime / duration, 1);
 
         const currentX = startX + (endX - startX) * progress;
         const currentY = startY + (endY - startY) * progress;
 
-        // Clear the canvas or the previous line segment
-        // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Uncomment if you want to draw only the current segment
-
-        // Draw new line segment
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         ctx.lineTo(currentX, currentY);
-        ctx.strokeStyle = getRandomColor(); // Use your existing getRandomColor function for color
+        ctx.strokeStyle = getRandomColor();
         ctx.lineWidth = 5;
         ctx.stroke();
 
         if (progress < 1) {
-            requestAnimationFrame(animateLineDrawing); // Continue the animation if not finished
+            requestAnimationFrame(animateLineDrawing);
         }
     }
 
     requestAnimationFrame(animateLineDrawing);
 }				
 						cubes.forEach((cubeElement, index) => {
-							const cube = cubeElement as HTMLElement; const downloadButton = document.getElementById('downloadCanvas');
+							const cube = cubeElement as HTMLElement;
 		
-							// Set initial positions
-							let lastX = window.innerWidth / 2;
-							let lastY = window.innerHeight / 2;
+							// Initialize last position to scene center in canvas coords
+							let lastX = centerX;
+							let lastY = centerY;
 								
 							function updateCube() {
-								const randomX = (Math.random() * (window.innerWidth * 0.9)) - (window.innerWidth * 0.45);
-								const randomY = (Math.random() * (window.innerHeight * 0.9)) - (window.innerHeight * 0.45);
+								const randomX = (Math.random() * (window.innerWidth * 0.8)) - (window.innerWidth * 0.4);
+								const randomY = (Math.random() * (window.innerHeight * 0.65)) - (window.innerHeight * 0.25);
 								const randomColor = getRandomColor();
 
 								let randomWordIndex, randomWord;
@@ -206,28 +213,19 @@ main {
 		
 								cube.style.transform = `translate(${randomX}px, ${randomY}px)`;
 								cube.style.backgroundColor = randomColor;
-								if (downloadButton) {
-									downloadButton.style.backgroundColor = randomColor;
-								}
 								const span = cube.querySelector('span');
 								if (span) {
 									span.textContent = randomWord;
 								}
 								lastUsedWords[index] = randomWord;
 
-
-								// Draw line
-								drawLine(ctx, lastX, lastY, window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY, 2000); 
-									// ctx.beginPath();
-									// ctx.moveTo(lastX, lastY);
-									// ctx.lineTo(window.innerWidth / 2 + randomX, window.innerHeight / 2 + randomY);
-									// ctx.strokeStyle = randomColor;
-									// ctx.lineWidth = 5;
-									// ctx.stroke();
+								// Draw line to cube target position in canvas coords
+								const targetX = centerX + randomX;
+								const targetY = centerY + randomY;
+								drawLine(ctx, lastX, lastY, targetX, targetY, 2000);
 								
-								
-								lastX = window.innerWidth / 2 + randomX;
-								lastY = window.innerHeight / 2 + randomY;
+								lastX = targetX;
+								lastY = targetY;
 							}
 
 							updateCube();  // Initial update

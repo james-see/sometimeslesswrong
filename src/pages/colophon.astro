@@ -1,0 +1,53 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+const today = new Date();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Colophon - ${SITE_TITLE}`} description="About this site, how it was made, and where to find me." />
+		<style>
+			main {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 3em 1em;
+			}
+			h1 {
+				font-size: 1.5em;
+				margin-bottom: 1rem;
+			}
+			h2 {
+				font-size: 1.2em;
+			}
+			p {
+				color: rgb(var(--gray-dark));
+			}
+			.copyright {
+				margin-top: 3em;
+				color: rgb(var(--gray));
+				font-size: 0.85em;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Colophon</h1>
+			<p>This site is built with <a href="https://astro.build" target="_blank">Astro</a>, written in TypeScript and Markdown, and hosted as a static site. The typefaces are Univers LT Pro for headings and Twentieth Century for body text.</p>
+
+			<h2>Elsewhere</h2>
+			<p>Find James elsewhere on <a href="https://x.com/jc50000000" target="_blank">X</a>, <a href="https://github.com/james-see" target="_blank">GitHub</a>, and his band GoldForLions on <a href="https://t.co/VApflmhCWb" target="_blank">Spotify</a>. James is also the owner of <a href="https://bellwetherlabs.com" target="_blank">Bellwether Labs</a> which is the house for all of his development projects that include iOS apps, Mac Desktop apps, and TUI tools and Python and Golang packages.</p>
+
+			<div class="copyright">&copy; {today.getFullYear()} James Campbell. All rights reserved.</div>
+		</main>
+		<Footer />
+	</body>
+</html>
