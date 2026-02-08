@@ -41,11 +41,13 @@ const { title, description, image = '/sometimes-less-wrong-share.jpg' } = Astro.
 <meta property="og:image" content={new URL(image, Astro.url)} />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@jc50000000" />
+<meta name="twitter:creator" content="@jc50000000" />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- RSS Feed -->
 <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />

@@ -11,6 +11,17 @@ const today = new Date();
 <html lang="en">
 	<head>
 		<BaseHead title={`Colophon - ${SITE_TITLE}`} description="About this site, how it was made, and where to find me." />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "AboutPage",
+			"name": "Colophon",
+			"url": "https://sometimeslesswrong.com/colophon",
+			"description": "About this site, how it was made, and where to find me.",
+			"author": {
+				"@type": "Person",
+				"name": "James Campbell"
+			}
+		})} />
 		<style>
 			main {
 				width: 720px;

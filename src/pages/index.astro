@@ -9,6 +9,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": SITE_TITLE,
+			"url": "https://sometimeslesswrong.com",
+			"description": SITE_DESCRIPTION,
+			"author": {
+				"@type": "Person",
+				"name": "James Campbell"
+			}
+		})} />
 		<style>
 html, body {
 	padding: 0;
